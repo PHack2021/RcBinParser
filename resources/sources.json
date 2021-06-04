@@ -1,0 +1,55 @@
+[
+	{
+		"name": "基隆市",
+		"code": "10017",
+		"source": "https://recycle.klepb.gov.tw/apple2/include/index.php?Page=5-2",
+		"type": ""
+	},
+	{
+		"name": "新北市",
+		"code": "65000",
+		"source": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384"
+	},
+	{
+		"name": "台北市",
+		"code": "63000",
+		"source": "https://data.gov.tw/dataset/128234",
+		"type": ""
+	},
+	{
+		"name": "新竹鎮",
+		"code": "10004020",
+		"source": "https://www.hcctt.gov.tw/iframcirculatedview.php?menu=2618&typeid=2620&circulated_id=287",
+		"type": ""
+	},
+	{
+		"name": "嘉義市",
+		"code": "10020",
+		"source": "https://data.gov.tw/dataset/52385",
+		"type": ""
+	},
+	{
+		"name": "台南市",
+		"code": "67000",
+		"source": "https://data.tainan.gov.tw/dataset/dioldcloadd/resource/fe214805-0e00-4386-ae68-0aa00579b836",
+		"type": ""
+	},
+	{
+		"name": "雲林縣",
+		"code": "10009",
+		"source": "https://www.ylepb.gov.tw/form/index-1.asp?Parser=2,6,56,50,,,324",
+		"type": ""
+	},
+	{
+		"name": "高雄市",
+		"code": "64000",
+		"source": "https://data.gov.tw/dataset/86419",
+		"type": ""
+	},
+	{
+		"name": "連江縣",
+		"code": "09007",
+		"source": "https://www.matsurecycle.tw/recycle/introduction-4",
+		"type": ""
+	}
+]
