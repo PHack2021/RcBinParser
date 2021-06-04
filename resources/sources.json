@@ -8,7 +8,8 @@
 	{
 		"name": "新北市",
 		"code": "65000",
-		"source": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384"
+		"source": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384",
+		"type": ""
 	},
 	{
 		"name": "台北市",
