@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from typing import Any, List
 
 import requests
@@ -8,7 +9,7 @@ from .data_types import RcBin
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
 
-class BaseParser:
+class BaseParser(ABC):
     rc_bins = []
     source = None
 
@@ -63,8 +64,9 @@ class BaseParser:
     def _get_resource(self, resource_url: str) -> Any:
         return self._fetch_from_url(resource_url)
 
+    @abstractmethod
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
-        return []
+        raise NotImplementedError
 
     def get_rc_bins(self) -> List[RcBin]:
         url = self._get_resource_url()
@@ -77,8 +79,7 @@ class BaseParser:
             print('[Failed to get resource]')
             return False
 
-        rc_bins = self._parse_rc_bins_from_resource(resource)
-        self.rc_bins = rc_bins
+        self.rc_bins = self._parse_rc_bins_from_resource(resource)
         return self.rc_bins
 
 

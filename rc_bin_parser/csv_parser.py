@@ -13,7 +13,7 @@ class CsvParser(BaseParser):
     def _cleanup_resource(self, resource: str):
         return re.sub(r'[\n]+["]', '\"', resource)
 
-    def _parse_rc_bins_from_resource(self, resource: Response) -> List[RcBin]:
+    def _get_csv_from_resource(self, resource: Response) -> list:
         encoding = self.source.get('encoding', 'UTF-8')
         rc_bins_raw = resource.content.decode(encoding)
         rc_bins_raw = self._cleanup_resource(rc_bins_raw)
@@ -23,6 +23,11 @@ class CsvParser(BaseParser):
         has_headers = bool(self.source.get('has_headers', 'True'))
         if has_headers:
             del rc_bins_csv[0]
+
+        return rc_bins_csv
+
+    def _parse_rc_bins_from_resource(self, resource: Response) -> List[RcBin]:
+        rc_bins_csv = self._get_csv_from_resource(resource)
 
         column_names = self.source['columns'].split()
         rc_bins = []
