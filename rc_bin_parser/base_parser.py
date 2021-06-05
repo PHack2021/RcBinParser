@@ -64,10 +64,12 @@ class BaseParser(ABC):
     def _get_resource(self, resource_url: str) -> Any:
         return self._fetch_from_url(resource_url)
 
+    # Implement for parsers for different data types
     @abstractmethod
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         raise NotImplementedError
 
+    # Main Entry Point
     def get_rc_bins(self) -> List[RcBin]:
         url = self._get_resource_url()
         if not url:
