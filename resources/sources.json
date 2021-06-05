@@ -2,7 +2,7 @@
 	{
 		"name": "基隆市",
 		"code": "10017",
-		"source": "https://recycle.klepb.gov.tw/apple2/include/index.php?Page=5-2",
+		"url": "https://recycle.klepb.gov.tw/apple2/include/index.php?Page=5-2",
 		"type": "soup",
 		"resource_selector": "strong, td",
 		"columns": "sn, district, community, address_w_directions"
@@ -10,7 +10,7 @@
 	{
 		"name": "新北市",
 		"code": "65000",
-		"source": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384",
+		"url": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384",
 		"type": "pdf",
 		"resource_selector": "a[href*=\"pdf\"]",
 		"columns": "sn, id, disctrict, community, address_w_directions, organization"
@@ -18,7 +18,7 @@
 	{
 		"name": "台北市",
 		"code": "63000",
-		"source": "https://data.taipei/api/getDatasetInfo/downloadResource?id=33de0950-24df-463d-b199-da3fbf612ef1&rid=67d4ce6f-3137-4e6f-b490-fd127ccdff5b",
+		"url": "https://data.taipei/api/getDatasetInfo/downloadResource?id=33de0950-24df-463d-b199-da3fbf612ef1&rid=67d4ce6f-3137-4e6f-b490-fd127ccdff5b",
 		"type": "api_csv",
 		"encoding": "Big5",
 		"columns": "sn, organization, organization_phone, district, address_w_directions, note, lat, lng"
@@ -26,7 +26,7 @@
 	{
 		"name": "竹東鎮",
 		"code": "10004020",
-		"source": "https://www.hcctt.gov.tw/iframcirculatedview.php?menu=2618&typeid=2620&circulated_id=287",
+		"url": "https://www.hcctt.gov.tw/iframcirculatedview.php?menu=2618&typeid=2620&circulated_id=287",
 		"type": "xlsx",
 		"resource_selector": "a[href*=\"xlsx\"]",
 		"columns": "community, address_w_directions, organization"
@@ -34,7 +34,7 @@
 	{
 		"name": "嘉義市",
 		"code": "10020",
-		"source": "https://data.chiayi.gov.tw/opendata/api/getResource?oid=f7cc65cd-0248-4382-b39b-4c8dcec5f5ab&rid=2bb687c2-606a-4db9-98b9-4ef49c57ee59",
+		"url": "https://data.chiayi.gov.tw/opendata/api/getResource?oid=f7cc65cd-0248-4382-b39b-4c8dcec5f5ab&rid=2bb687c2-606a-4db9-98b9-4ef49c57ee59",
 		"type": "api_csv",
 		"encoding": "UTF-8",
 		"columns": "sn, address_w_directions"
@@ -42,7 +42,7 @@
 	{
 		"name": "台南市",
 		"code": "67000",
-		"source": "https://data.tainan.gov.tw/dataset/0db59dc0-8535-40d5-908b-63b656121c39/resource/fe214805-0e00-4386-ae68-0aa00579b836/download/3dioldcloadd-0513.csv",
+		"url": "https://data.tainan.gov.tw/dataset/0db59dc0-8535-40d5-908b-63b656121c39/resource/fe214805-0e00-4386-ae68-0aa00579b836/download/3dioldcloadd-0513.csv",
 		"type": "api_csv",
 		"encoding": "Big5",
 		"columns": "sn, organization, organization_address, organization_contact, organization_phone, district, community, address_w_directions, auth_code, auth_code2, auth_date, auth_duration"
@@ -50,13 +50,13 @@
 	{
 		"name": "雲林縣",
 		"code": "10009",
-		"source": "https://www.ylepb.gov.tw/form/index-1.asp?Parser=2,6,56,50,,,324",
+		"url": "https://www.ylepb.gov.tw/form/index-1.asp?Parser=2,6,56,50,,,324",
 		"type": ""
 	},
 	{
 		"name": "高雄市",
 		"code": "64000",
-		"source": "https://data.kcg.gov.tw/dataset/4aac8f1f-ce26-47eb-9bdd-6b82664071e3/resource/0f4fc4d6-a4b0-4574-af19-f1f41bf40af5/download/old-clothes-recycling-bins.csv",
+		"url": "https://data.kcg.gov.tw/dataset/4aac8f1f-ce26-47eb-9bdd-6b82664071e3/resource/0f4fc4d6-a4b0-4574-af19-f1f41bf40af5/download/old-clothes-recycling-bins.csv",
 		"type": "api_csv",
 		"encoding": "UTF-8",
 		"columns": "address_w_directions, district_code, organization"
@@ -64,7 +64,7 @@
 	{
 		"name": "連江縣",
 		"code": "09007",
-		"source": "https://www.matsurecycle.tw/recycle/introduction-4",
+		"url": "https://www.matsurecycle.tw/recycle/introduction-4",
 		"type": ""
 	}
 ]
