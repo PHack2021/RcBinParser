@@ -1,24 +1,27 @@
-from dataclasses import dataclass
+from collections import namedtuple
+from typing import TypedDict
 
 
-@dataclass
-class Organization:
-    organization_name: str
-    organization_address: str
-    organization_contactL: str
-    organization_phone: str
+class Organization(TypedDict):
+    org_name: str
+    org_address: str
+    org_contact: str
+    org_phone: str
+    org_district: str
+    org_district_code: str
 
 
-@dataclass
-class RcBin:
+class RcBin(TypedDict):
+    official_sn: str
     county_city: str
     district: str
     district_code: str
     village: str
     address: str
-    address_w_directions: str
+    addr_with_dirs: str
     directions: str
     organization: Organization
-    coordinates: tuple(str, str)
+    coords_lat: str
+    coords_lng: str
     updated_on: str
     note: str

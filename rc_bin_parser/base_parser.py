@@ -5,19 +5,24 @@ from bs4 import BeautifulSoup
 
 from .data_types import RcBin
 
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
-class BaseParser():
+
+class BaseParser:
+    rc_bins = []
+    source = None
 
     def __init__(self, source: dict):
         self.source = source
 
     @classmethod
-    def _fetch_from_url(url: str, headers: dict = {}) -> requests.models.Response:
+    def _fetch_from_url(cls, url: str, headers: dict = {'user-agent': UA}) -> requests.models.Response:
         try:
-            r = requests.get(url, headers=headers)
+            r = requests.get(url, headers=headers, timeout=5)
         except:
             return False
         if r.status_code != 200:
+            print(f'[fetch_from_url failed: {r.status_code}]')
             return False
 
         return r
@@ -43,7 +48,7 @@ class BaseParser():
     def _get_resource_url(self) -> str:
         url = self.source['url']
 
-        if self.source['type'][:3] is 'api':
+        if self.source['type'][:3] == 'api':
             return url
         else:
             soup = self._get_soup(url)
@@ -58,25 +63,23 @@ class BaseParser():
     def _get_resource(self, resource_url: str) -> Any:
         return self._fetch_from_url(resource_url)
 
-    def _parse_rc_bins_from_resource(self) -> List[dict]:
-        pass
+    def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
+        return []
 
-    def get_rc_bins(self) -> List[dict]:
+    def get_rc_bins(self) -> List[RcBin]:
         url = self._get_resource_url()
         if not url:
+            print('[Failed to get resource_url]')
             return False
 
         resource = self._get_resource(url)
+        if not resource:
+            print('[Failed to get resource]')
+            return False
 
-        rc_bins = self._parse_rc_bins_from_resource()
-
-
-class SoupParser(BaseParser):
-    def _get_resource(self, resource_url):
-        return self._get_soup(resource_url)
-
-    def _get_resource_url(self) -> str:
-        return self.source['url']
+        rc_bins = self._parse_rc_bins_from_resource(resource)
+        self.rc_bins = rc_bins
+        return self.rc_bins
 
 
 # class XlsxParser():
