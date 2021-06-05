@@ -79,21 +79,17 @@ class SoupParser(BaseParser):
         return self.source['url']
 
 
-class CsvParser():
-    pass
+# class XlsxParser():
+#     pass
 
 
-class XlsxParser():
-    pass
+# class PdfParser():
+#     pass
 
 
-class PdfParser():
-    pass
+# class JsonParser():
+#     pass
 
 
-class JsonParser():
-    pass
-
-
-class XmlParser():
-    pass
+# class XmlParser():
+#     pass

@@ -5,7 +5,7 @@
 		"url": "https://recycle.klepb.gov.tw/apple2/include/index.php?Page=5-2",
 		"type": "soup",
 		"resource_selector": "strong, td",
-		"columns": "sn, district, community, address_w_directions"
+		"columns": "sn, district, village, address_w_directions"
 	},
 	{
 		"name": "新北市",
@@ -13,7 +13,7 @@
 		"url": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384",
 		"type": "pdf",
 		"resource_selector": "a[href*=\"pdf\"]",
-		"columns": "sn, id, disctrict, community, address_w_directions, organization"
+		"columns": "sn, id, disctrict, village, address_w_directions, organization"
 	},
 	{
 		"name": "台北市",
@@ -29,7 +29,7 @@
 		"url": "https://www.hcctt.gov.tw/iframcirculatedview.php?menu=2618&typeid=2620&circulated_id=287",
 		"type": "xlsx",
 		"resource_selector": "a[href*=\"xlsx\"]",
-		"columns": "community, address_w_directions, organization"
+		"columns": "village, address_w_directions, organization"
 	},
 	{
 		"name": "嘉義市",
@@ -45,7 +45,7 @@
 		"url": "https://data.tainan.gov.tw/dataset/0db59dc0-8535-40d5-908b-63b656121c39/resource/fe214805-0e00-4386-ae68-0aa00579b836/download/3dioldcloadd-0513.csv",
 		"type": "api_csv",
 		"encoding": "Big5",
-		"columns": "sn, organization, organization_address, organization_contact, organization_phone, district, community, address_w_directions, auth_code, auth_code2, auth_date, auth_duration"
+		"columns": "sn, organization, organization_address, organization_contact, organization_phone, district, village, address_w_directions, auth_code, auth_code2, auth_date, auth_duration"
 	},
 	{
 		"name": "雲林縣",

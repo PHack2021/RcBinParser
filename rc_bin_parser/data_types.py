@@ -14,7 +14,7 @@ class RcBin:
     county_city: str
     district: str
     district_code: str
-    community: str
+    village: str
     address: str
     address_w_directions: str
     directions: str
