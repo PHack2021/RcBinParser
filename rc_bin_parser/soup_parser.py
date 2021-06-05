@@ -1,5 +1,6 @@
-from .base_parser import BaseParser
 from bs4 import BeautifulSoup
+
+from .base_parser import BaseParser
 
 
 class SoupParser(BaseParser):

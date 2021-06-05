@@ -1,8 +1,8 @@
 import json
-from rc_bin_parser import CsvParser
-from typing import List
 from pprint import pprint
+from typing import List
 
+from rc_bin_parser import CsvParser
 
 SOURCES_PATH = 'resources/sources.json'
 

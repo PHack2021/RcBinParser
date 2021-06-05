@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Any, List
 
 import requests
 from bs4 import BeautifulSoup

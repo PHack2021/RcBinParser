@@ -1,5 +1,5 @@
-import re
 import csv
+import re
 from typing import List
 
 from requests.models import Response
