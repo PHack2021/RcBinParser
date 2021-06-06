@@ -83,19 +83,3 @@ class BaseParser(ABC):
 
         self.rc_bins = self._parse_rc_bins_from_resource(resource)
         return self.rc_bins
-
-
-# class XlsxParser():
-#     pass
-
-
-# class PdfParser():
-#     pass
-
-
-# class JsonParser():
-#     pass
-
-
-# class XmlParser():
-#     pass
