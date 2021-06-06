@@ -13,5 +13,9 @@ class SoupParser(BaseParser):
     def _get_resource_url(self) -> str:
         return self.source['url']
 
-    def _parse_rc_bins_from_resource(self, resource: BeautifulSoup) -> List[RcBin]:
-        pass
+    def _parse_rc_bins_from_resource(self, soup: BeautifulSoup) -> List[RcBin]:
+        for resource in self.source['resources']:
+            elements = soup.select(resource['selector'])
+
+            for element in elements:
+                pass

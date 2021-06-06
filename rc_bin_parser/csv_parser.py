@@ -29,7 +29,7 @@ class CsvParser(BaseParser):
     def _parse_rc_bins_from_resource(self, resource: Response) -> List[RcBin]:
         rc_bins_csv = self._get_csv_from_resource(resource)
 
-        column_names = self.source['columns'].split()
+        column_names = self.source['columns']
         rc_bins = []
 
         for row in rc_bins_csv:
