@@ -24,8 +24,7 @@ class PdfParser(BaseParser):
 
             if has_headers == 'AllPages':
                 del table[0]
-            for row in table:
-                rc_bins_pdf.append(row)
+            rc_bins_pdf += table
 
         if has_headers == 'True':
             del rc_bins_pdf[0]
