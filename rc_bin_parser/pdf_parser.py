@@ -1,8 +1,7 @@
-import pdfplumber
-
 from io import BytesIO
 from typing import List
 
+import pdfplumber
 from requests.models import Response
 
 from .base_parser import BaseParser
