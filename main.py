@@ -24,8 +24,7 @@ if __name__ == '__main__':
         if not source['type']:
             continue
         elif source['type'][-3:] == 'csv':
-            # parser = CsvParser(source)
-            continue
+            parser = CsvParser(source)
         elif source['type'][-4:] == 'json':
             continue
         elif source['type'][-4:] == 'xlsx':
