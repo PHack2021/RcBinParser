@@ -13,15 +13,15 @@ class PdfParser(BaseParser):
     def _get_pdf_from_resource(self, resource: Response) -> list:
         rc_bins_pdf = []
 
+        has_headers = self.source.get('has_headers', 'True')
+        # 'AllPages' : 1 header row on each page
+        # 'True'     : 1 header row at the start
+        # 'False     : 0 header rows
+
         pdf = pdfplumber.open(BytesIO(resource.content))
         for page in pdf.pages:
             table = page.extract_table()
 
-            has_headers = self.source.get('has_headers', 'True')
-
-            # 'AllPages' : 1 header row on each page
-            # 'True'     : 1 header row at the start
-            # 'False     : 0 header rows
             if has_headers == 'AllPages':
                 del table[0]
             for row in table:
