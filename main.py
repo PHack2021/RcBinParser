@@ -6,7 +6,7 @@ import json
 from pprint import pprint
 from typing import List
 
-from rc_bin_parser import CsvParser
+from rc_bin_parser import CsvParser, PdfParser
 
 SOURCES_PATH = 'resources/sources.json'
 
@@ -30,7 +30,7 @@ if __name__ == '__main__':
         elif source['type'][-4:] == 'xlsx':
             continue
         elif source['type'][-3:] == 'pdf':
-            continue
+            parser = PdfParser(source)
         elif source['type'] == 'soup':
             continue
 
@@ -38,5 +38,6 @@ if __name__ == '__main__':
         if not rc_bins:
             print(f'[Failed to parse RcBins from {source["name"]}]')
         # pprint(rc_bins[:2])
-        print(
-            f'[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]')
+        else:
+            print(
+                f'[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]')

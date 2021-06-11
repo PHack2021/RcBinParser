@@ -34,7 +34,7 @@ class BaseParser(ABC):
         return BeautifulSoup(r.text, 'lxml')
 
     @classmethod
-    def _format_url(url: str, base_url: str) -> str:
+    def _format_url(cls, url: str, base_url: str) -> str:
         if url.startswith('//'):
             return f'https:{url}'
 
