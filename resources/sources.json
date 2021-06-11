@@ -28,6 +28,7 @@
 		"url": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384",
 		"type": "pdf",
 		"resource_selector": "a[href*=\"pdf\"]",
+		"has_headers": "AllPages",
 		"columns": [
 			"official_sn",
 			"id",

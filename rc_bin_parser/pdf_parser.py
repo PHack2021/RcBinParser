@@ -1,5 +1,4 @@
 import pdfplumber
-import pandas as pd
 
 from io import BytesIO
 from typing import List
@@ -16,22 +15,27 @@ class PdfParser(BaseParser):
         rc_bins_pdf = []
 
         pdf = pdfplumber.open(BytesIO(resource.content))
-        for page in range(len(pdf.pages)):
-            p = pdf.pages[page]
-            table = p.extract_table()
+        for page in pdf.pages:
+            table = page.extract_table()
 
-            if page == 0:
-                rc_bins_pdf = table
-            else:
-                for i in range(len(table)):
-                    if i > 0:
-                        rc_bins_pdf.append(table[i])
+            has_headers = self.source.get('has_headers', 'True')
+
+            # 'AllPages' : 1 header row on each page
+            # 'True'     : 1 header row at the start
+            # 'False     : 0 header rows
+            if has_headers == 'AllPages':
+                del table[0]
+            for row in table:
+                rc_bins_pdf.append(row)
+
+        if has_headers == 'True':
+            del rc_bins_pdf[0]
 
         return rc_bins_pdf
 
     def _parse_rc_bins_from_resource(self, resource: Response) -> List[RcBin]:
         rc_bins_pdf = self._get_pdf_from_resource(resource)
-        
+
         column_names = self.source['columns']
         rc_bins = []
 

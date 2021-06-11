@@ -24,7 +24,8 @@ if __name__ == '__main__':
         if not source['type']:
             continue
         elif source['type'][-3:] == 'csv':
-            parser = CsvParser(source)
+            # parser = CsvParser(source)
+            continue
         elif source['type'][-4:] == 'json':
             continue
         elif source['type'][-4:] == 'xlsx':
@@ -37,7 +38,7 @@ if __name__ == '__main__':
         rc_bins = parser.get_rc_bins()
         if not rc_bins:
             print(f'[Failed to parse RcBins from {source["name"]}]')
-        # pprint(rc_bins[:2])
         else:
+            # pprint(rc_bins)
             print(
                 f'[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]')
