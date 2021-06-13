@@ -38,6 +38,6 @@ if __name__ == '__main__':
         if not rc_bins:
             print(f'[Failed to parse RcBins from {source["name"]}]')
         else:
-            # pprint(rc_bins)
+            # pprint(rc_bins[:5])
             print(
                 f'[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]')

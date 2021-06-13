@@ -5,12 +5,11 @@ import pdfplumber
 from requests.models import Response
 
 from .base_parser import BaseParser
-from .data_types import Organization, RcBin
 
 
 class PdfParser(BaseParser):
 
-    def _get_pdf_from_resource(self, resource: Response) -> list:
+    def _get_list_from_resource(self, resource: Response) -> list:
         rc_bins_pdf = []
 
         has_headers = self.source.get('has_headers', 'True')
@@ -30,26 +29,3 @@ class PdfParser(BaseParser):
             del rc_bins_pdf[0]
 
         return rc_bins_pdf
-
-    def _parse_rc_bins_from_resource(self, resource: Response) -> List[RcBin]:
-        rc_bins_pdf = self._get_pdf_from_resource(resource)
-
-        column_names = self.source['columns']
-        rc_bins = []
-
-        for row in rc_bins_pdf:
-            rc_bin = RcBin()
-            org = Organization()
-
-            for name, value in zip(column_names, row):
-                if 'org' in name:
-                    org[name] = value
-                    continue
-                rc_bin[name] = value
-
-            if org:
-                rc_bin['organization'] = org
-
-            rc_bins.append(rc_bin)
-
-        return rc_bins
