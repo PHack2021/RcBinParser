@@ -69,6 +69,12 @@ class BaseParser(ABC):
     def _get_list_from_resource(self, resource: requests.models.Response) -> list:
         raise NotImplementedError
 
+    def _split_addr_with_dirs(self):
+        pass
+
+    def _get_unique_organizations(self) -> List[Organization]:
+        pass
+
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         rc_bins_raw = self._get_list_from_resource(resource)
 
