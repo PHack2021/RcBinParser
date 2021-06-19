@@ -12,7 +12,7 @@ SOURCES_PATH = 'resources/sources.json'
 
 
 def read_sources() -> List[dict]:
-    with open(SOURCES_PATH, 'r') as f:
+    with open(SOURCES_PATH, 'r', encoding='UTF-8') as f:
         sources = json.load(f)
     return sources
 
