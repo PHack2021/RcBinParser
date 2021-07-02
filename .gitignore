@@ -133,3 +133,6 @@ dmypy.json
 
 # VSCode
 .Vscode/
+
+# sensitive config info
+config.py
