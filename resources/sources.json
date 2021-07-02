@@ -32,7 +32,7 @@
 		"columns": [
 			"official_sn",
 			"id",
-			"disctrict",
+			"district",
 			"village",
 			"addr_with_dirs",
 			"org_name"
