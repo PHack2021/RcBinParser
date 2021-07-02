@@ -17,7 +17,7 @@ class RcBin(TypedDict):
     county_city: str
     district: str
     district_code: str          # <TEXT>
-    village: str
+    village: str                # <TEXT>
     address: str                # <TEXT>
     addr_with_dirs: str         # <TEXT>
     directions: str             # <TEXT>

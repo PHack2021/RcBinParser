@@ -6,6 +6,8 @@ import json
 from pprint import pprint
 from typing import List
 
+from colorama import Fore
+
 from rc_bin_parser import CsvParser, PdfParser
 
 SOURCES_PATH = 'resources/sources.json'
@@ -30,15 +32,15 @@ if __name__ == '__main__':
         elif source['type'][-4:] == 'xlsx':
             continue
         elif source['type'][-3:] == 'pdf':
-            #parser = PdfParser(source)
-            continue
+            parser = PdfParser(source)
         elif source['type'] == 'soup':
             continue
 
         rc_bins = parser.get_rc_bins()
         if not rc_bins:
-            print(f'[Failed to parse RcBins from {source["name"]}]')
+            print(
+                f'{Fore.MAGENTA}[Failed to parse RcBins from {source["name"]}]{Fore.RESET}')
         else:
             pprint(rc_bins[:5])
             print(
-                f'[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]')
+                f'{Fore.MAGENTA}[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]{Fore.RESET}')

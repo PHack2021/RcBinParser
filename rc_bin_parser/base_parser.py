@@ -142,6 +142,6 @@ class BaseParser(ABC):
 
         self.rc_bins = self._parse_rc_bins_from_resource(resource)
         self.organizations = self._get_unique_organizations()
-        self._get_district_codes()
+        self._map_district_codes()
         # print(self.organizations)
         return self.rc_bins
