@@ -11,6 +11,7 @@ from colorama import Fore
 from rc_bin_parser import CsvParser, PdfParser
 
 SOURCES_PATH = 'resources/sources.json'
+skip_list = ['嘉義市']
 
 
 def read_sources() -> List[dict]:
@@ -23,6 +24,9 @@ if __name__ == '__main__':
     sources = read_sources()
 
     for source in sources:
+        if source['name'] in skip_list:
+            continue
+
         if not source['type']:
             continue
         elif source['type'][-3:] == 'csv':
