@@ -6,6 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from .data_types import RcBin, Organization
+from .utils import get_dict_from_csv
+
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
@@ -83,15 +85,17 @@ class BaseParser(ABC):
         org_dict = {}
 
         for rc_bin in self.rc_bins:
-            if rc_bin.get('organization', ''):
-                if not org_dict.get(rc_bin['organization']['org_name'], ''):
-                    org_uuid = uuid.uuid4()
-                    rc_bin['organization']['uuid'] = org_uuid
-                    org_dict[rc_bin['organization']
-                             ['org_name']] = rc_bin['organization']
+            if not rc_bin.get('organization', ''):
+                continue
 
+            if not org_dict.get(rc_bin['organization']['org_name'], ''):
                 org_uuid = uuid.uuid4()
                 rc_bin['organization']['uuid'] = org_uuid
+                org_dict[rc_bin['organization']
+                         ['org_name']] = rc_bin['organization']
+
+            org_uuid = uuid.uuid4()
+            rc_bin['organization']['uuid'] = org_uuid
 
         organizations = []
         for key, val in org_dict.items():
@@ -100,10 +104,19 @@ class BaseParser(ABC):
         return organizations
 
     def _map_district_codes(self) -> None:
+        districts = get_dict_from_csv('resources/districts.csv')
+
         for rc_bin in self.rc_bins:
             # 如果 district_code 不存在，從 districts.csv 拿到對應的 district_code 存進去
-            if not rc_bin.get('district_code', ''):
-                pass
+            if rc_bin.get('district_code', ''):
+                continue
+
+            for district in districts:
+                if not rc_bin.get('district', ''):
+                    continue
+
+                if rc_bin['district'] == district['name'] or rc_bin['district'] == district.get('alt_name', ''):
+                    rc_bin['district_code'] = district['code']
 
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         rc_bins_raw = self._get_list_from_resource(resource)
