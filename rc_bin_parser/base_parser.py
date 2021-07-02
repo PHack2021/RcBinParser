@@ -6,6 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from .data_types import RcBin, Organization
+from .utils import get_dict_from_csv
+
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
@@ -87,7 +89,8 @@ class BaseParser(ABC):
                 if not org_dict.get(rc_bin['organization']['org_name'], ''):
                     org_uuid = uuid.uuid4()
                     rc_bin['organization']['uuid'] = org_uuid
-                    org_dict[rc_bin['organization']['org_name']] = rc_bin['organization']
+                    org_dict[rc_bin['organization']
+                             ['org_name']] = rc_bin['organization']
 
                 org_uuid = uuid.uuid4()
                 rc_bin['organization']['uuid'] = org_uuid
@@ -99,24 +102,19 @@ class BaseParser(ABC):
         return organizations
 
     def _map_district_codes(self) -> None:
-        dist_list = []
-
-        with open('resources/districts.csv', 'r', encoding = "utf-8") as f:
-            next(f)
-            for line in f:
-                dist_dict = {}
-                (val1, val2, val3) = line.strip().split(',')
-                dist_dict['name'] = val1
-                dist_dict['code'] = val2
-                dist_dict['county_city'] = val3
-                dist_list.append(dist_dict)
+        districts = get_dict_from_csv('resources/districts.csv')
 
         for rc_bin in self.rc_bins:
             # 如果 district_code 不存在，從 districts.csv 拿到對應的 district_code 存進去
-            if not rc_bin.get('district_code', ''):
-                for dist in dist_list:
-                    if rc_bin['district'] == dist['name']:
-                        rc_bin['district_code'] = dist['code']
+            if rc_bin.get('district_code', ''):
+                continue
+
+            for district in districts:
+                if not rc_bin.get('district', ''):
+                    continue
+
+                if rc_bin['district'] == district['name'] or rc_bin['district'] == district.get('alt_name', ''):
+                    rc_bin['district_code'] = district['code']
 
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         rc_bins_raw = self._get_list_from_resource(resource)
