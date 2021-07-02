@@ -85,15 +85,17 @@ class BaseParser(ABC):
         org_dict = {}
 
         for rc_bin in self.rc_bins:
-            if rc_bin.get('organization', ''):
-                if not org_dict.get(rc_bin['organization']['org_name'], ''):
-                    org_uuid = uuid.uuid4()
-                    rc_bin['organization']['uuid'] = org_uuid
-                    org_dict[rc_bin['organization']
-                             ['org_name']] = rc_bin['organization']
+            if not rc_bin.get('organization', ''):
+                continue
 
+            if not org_dict.get(rc_bin['organization']['org_name'], ''):
                 org_uuid = uuid.uuid4()
                 rc_bin['organization']['uuid'] = org_uuid
+                org_dict[rc_bin['organization']
+                         ['org_name']] = rc_bin['organization']
+
+            org_uuid = uuid.uuid4()
+            rc_bin['organization']['uuid'] = org_uuid
 
         organizations = []
         for key, val in org_dict.items():
