@@ -28,6 +28,7 @@
 		"url": "https://recycledstuff.ntpc.chuangjing.com.tw/dispPageBox/RRN/RCCP.aspx?ddsPageID=RCCRC5&dbid=5470177384",
 		"type": "pdf",
 		"resource_selector": "a[href*=\"pdf\"]",
+		"has_headers": "AllPages",
 		"columns": [
 			"official_sn",
 			"id",
@@ -57,7 +58,7 @@
 	{
 		"name": "竹東鎮",
 		"code": "10004020",
-		"url": "https://www.hcctt.gov.tw/iframcircucoords_edview.php?menu=2618&typeid=2620&circucoords_ed_id=287",
+		"url": "https://www.hcctt.gov.tw/iframcirculatedview.php?typeid=2620&menu=2618&circulated_id=287",
 		"type": "xlsx",
 		"resource_selector": "a[href*=\"xlsx\"]",
 		"columns": [

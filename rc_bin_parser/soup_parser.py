@@ -3,7 +3,7 @@ from typing import List
 from bs4 import BeautifulSoup
 
 from .base_parser import BaseParser
-from .data_types import RcBin
+from .data_types import Organization, RcBin
 
 
 class SoupParser(BaseParser):
@@ -14,6 +14,9 @@ class SoupParser(BaseParser):
         return self.source['url']
 
     def _parse_rc_bins_from_resource(self, soup: BeautifulSoup) -> List[RcBin]:
+        rc_bins = RcBin()
+        org = Organization()
+
         for resource in self.source['resources']:
             elements = soup.select(resource['selector'])
 

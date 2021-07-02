@@ -4,7 +4,7 @@ from typing import Any, List
 import requests
 from bs4 import BeautifulSoup
 
-from .data_types import RcBin
+from .data_types import RcBin, Organization
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
@@ -34,7 +34,7 @@ class BaseParser(ABC):
         return BeautifulSoup(r.text, 'lxml')
 
     @classmethod
-    def _format_url(url: str, base_url: str) -> str:
+    def _format_url(cls, url: str, base_url: str) -> str:
         if url.startswith('//'):
             return f'https:{url}'
 
@@ -66,8 +66,37 @@ class BaseParser(ABC):
 
     # Implement for parsers for different data types
     @abstractmethod
-    def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
+    def _get_list_from_resource(self, resource: requests.models.Response) -> list:
         raise NotImplementedError
+
+    def _split_addr_with_dirs(self):
+        pass
+
+    def _get_unique_organizations(self) -> List[Organization]:
+        pass
+
+    def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
+        rc_bins_raw = self._get_list_from_resource(resource)
+
+        column_names = self.source['columns']
+        rc_bins = []
+
+        for row in rc_bins_raw:
+            rc_bin = RcBin()
+            org = Organization()
+
+            for name, value in zip(column_names, row):
+                if 'org' in name:
+                    org[name] = value
+                    continue
+                rc_bin[name] = value
+
+            if org:
+                rc_bin['organization'] = org
+
+            rc_bins.append(rc_bin)
+
+        return rc_bins
 
     # Main Entry Point
     def get_rc_bins(self) -> List[RcBin]:
