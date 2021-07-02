@@ -63,8 +63,9 @@ def push_to_db(**kwargs):
 
         if not c:
             continue
-        if not session.query(District.code).filter(District.code == d.code).one_or_none():
+        if d.code not in [dist.code for dist in c.districts]:
             c.districts.append(d)
+        # if not session.query(District.code).filter(District.code == d.code).one_or_none():
 
     session.commit()
 

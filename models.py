@@ -25,9 +25,10 @@ def create_table(engine):
 class District(Base):
     __tablename__ = 'district'
 
-    code = Column(Text, primary_key=True, unique=True, nullable=False)
-    name = Column(Text, nullable=False)
-    county_city_code = Column(ForeignKey('county_city.code'), nullable=False)
+    code = Column(String(8), primary_key=True, unique=True, nullable=False)
+    name = Column(String(5), nullable=False)
+    # county_city_code = Column(ForeignKey('county_city.code'), nullable=False)
+    county_city_name = Column(ForeignKey('county_city.name'), nullable=False)
 
     county_city = relationship('County_City', back_populates='districts')
 
@@ -35,10 +36,10 @@ class District(Base):
 class County_City(Base):
     __tablename__ = 'county_city'
 
-    code = Column(Text, primary_key=True, unique=True, nullable=False)
-    name = Column(Text, nullable=False)
+    code = Column(String(5), primary_key=True, unique=True, nullable=False)
+    name = Column(String(3), unique=True, nullable=False)
     order = Column(Integer, index=True)
-    alt_name = Column(Text)
+    alt_name = Column(String(3))
 
     districts = relationship(
         'District', back_populates='county_city', order_by=District.code)
