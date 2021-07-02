@@ -69,10 +69,16 @@ class BaseParser(ABC):
     def _get_list_from_resource(self, resource: requests.models.Response) -> list:
         raise NotImplementedError
 
-    def _split_addr_with_dirs(self):
-        pass
+    # def _split_addr_with_dirs(self):
+    #     if not self.rc_bins:
+    #         return
+        # addr_pattern = r'[.*][縣｜市]'
+
+        # for rc_bin in self.rc_bins:
+        #     if
 
     def _get_unique_organizations(self) -> List[Organization]:
+        # get unique organizations and generate uuid, then delete Organization in rcbins and point to correct organization_uuid
         pass
 
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
@@ -111,4 +117,6 @@ class BaseParser(ABC):
             return False
 
         self.rc_bins = self._parse_rc_bins_from_resource(resource)
+
+        self.organizations = self._get_unique_organizations()
         return self.rc_bins

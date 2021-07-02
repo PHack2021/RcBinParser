@@ -2,6 +2,7 @@ from typing import TypedDict
 
 
 class Organization(TypedDict):
+    uuid: str
     org_name: str
     org_address: str
     org_contact: str
@@ -19,7 +20,8 @@ class RcBin(TypedDict):
     address: str
     addr_with_dirs: str
     directions: str
-    organization: Organization
+    organization: Organization  # delete this after _get_unique_organizations
+    organization_uuid: str
     coords_lat: str
     coords_lng: str
     updated_on: str
