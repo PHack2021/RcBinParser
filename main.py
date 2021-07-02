@@ -13,6 +13,8 @@ from models import db_connect, create_table
 from models import District, County_City
 from rc_bin_parser import CsvParser, PdfParser
 
+from rc_bin_parser.utils import get_dict_from_csv
+
 SOURCES_PATH = 'resources/sources.json'
 skip_list = ['嘉義市']
 
@@ -21,13 +23,6 @@ def read_sources() -> List[dict]:
     with open(SOURCES_PATH, 'r', encoding='UTF-8') as f:
         sources = json.load(f)
     return sources
-
-
-def get_dict_from_csv(path: str):
-    with open(path, 'r') as f:
-        reader = csv.DictReader(f)
-        csv_content = list(reader)
-    return csv_content
 
 
 def push_to_db(**kwargs):
@@ -66,7 +61,6 @@ def push_to_db(**kwargs):
             continue
         if d.code not in [dist.code for dist in c.districts]:
             c.districts.append(d)
-        # if not session.query(District.code).filter(District.code == d.code).one_or_none():
 
     session.commit()
 
