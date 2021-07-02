@@ -2,28 +2,28 @@ from typing import TypedDict
 
 
 class Organization(TypedDict):
-    uuid: str
-    org_name: str
-    org_address: str
-    org_contact: str
-    org_phone: str
+    uuid: str                   # PK <UUID>
+    org_name: str               # <TEXT>
+    org_address: str            # <TEXT>
+    org_contact: str            # <TEXT>
+    org_phone: str              # <TEXT>
     org_district: str
-    org_district_code: str
+    org_district_code: str      # <TEXT>
 
 
 class RcBin(TypedDict):
-    uuid: str
-    official_sn: str
+    uuid: str                   # PK <UUID>
+    official_sn: str            # <TEXT>
     county_city: str
     district: str
-    district_code: str
+    district_code: str          # <TEXT>
     village: str
-    address: str
-    addr_with_dirs: str
-    directions: str
-    organization: Organization  # delete this after _get_unique_organizations
-    organization_uuid: str
-    coords_lat: str
-    coords_lng: str
-    updated_on: str
-    note: str
+    address: str                # <TEXT>
+    addr_with_dirs: str         # <TEXT>
+    directions: str             # <TEXT>
+    organization: Organization
+    organization_uuid: str      # FK <TEXT> organization->uuid
+    coords_lat: str             # <TEXT>
+    coords_lng: str             # <TEXT>
+    updated_on: str             # <DATE>
+    note: str                   # <TEXT>

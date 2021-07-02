@@ -137,5 +137,5 @@ class BaseParser(ABC):
         self.rc_bins = self._parse_rc_bins_from_resource(resource)
 
         self.organizations = self._get_unique_organizations()
-        print(self.organizations)
+        # print(self.organizations)
         return self.rc_bins
