@@ -12,6 +12,7 @@ class Organization(TypedDict):
 
 
 class RcBin(TypedDict):
+    uuid: str
     official_sn: str
     county_city: str
     district: str

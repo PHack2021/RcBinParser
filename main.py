@@ -30,7 +30,8 @@ if __name__ == '__main__':
         elif source['type'][-4:] == 'xlsx':
             continue
         elif source['type'][-3:] == 'pdf':
-            parser = PdfParser(source)
+            #parser = PdfParser(source)
+            continue
         elif source['type'] == 'soup':
             continue
 

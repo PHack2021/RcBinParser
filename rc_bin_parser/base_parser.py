@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any, List
+import uuid
 
 import requests
 from bs4 import BeautifulSoup
@@ -79,7 +80,18 @@ class BaseParser(ABC):
 
     def _get_unique_organizations(self) -> List[Organization]:
         # get unique organizations and generate uuid, then delete Organization in rcbins and point to correct organization_uuid
-        pass
+        org_dict = {}
+
+        for rc_bin in self.rc_bins:
+            if not org_dict.get(rc_bin['organization']['org_name'], ''):
+                org_uuid = uuid.uuid4()
+                rc_bin['organization']['uuid'] = org_uuid
+                org_dict[rc_bin['organization']['org_name']] = rc_bin['organization']
+
+            org_uuid = uuid.uuid4()
+            rc_bin['organization']['uuid'] = org_uuid
+
+        return list(org_dict)
 
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         rc_bins_raw = self._get_list_from_resource(resource)
@@ -119,4 +131,5 @@ class BaseParser(ABC):
         self.rc_bins = self._parse_rc_bins_from_resource(resource)
 
         self.organizations = self._get_unique_organizations()
+        print(self.organizations)
         return self.rc_bins
