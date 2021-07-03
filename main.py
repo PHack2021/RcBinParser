@@ -87,8 +87,8 @@ def push_to_db(**kwargs):
 if __name__ == '__main__':
     sources = read_sources()
 
-    dist_str = ''
-    org_str = ''
+    rc_bins_list = []
+    orgs_list = []
 
     for source in sources:
         if source['name'] in skip_list:
@@ -116,8 +116,11 @@ if __name__ == '__main__':
             print(
                 f'{Fore.MAGENTA}[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]{Fore.RESET}')
 
-    for rc_bin in rc_bins:
-        dist_str += str(rc_bin['district']) + '/'
-        org_str += str(rc_bin['organization']) + '/'
+        rc_bins_list += parser.rc_bins
+        orgs_list += parser.organizations
 
-    push_to_db(dists=dist_str, orgs=org_str)
+    # for rc_bin in rc_bins:
+    #     dist_str += str(rc_bin['district']) + '/'
+    #     org_str += str(rc_bin['organization']) + '/'
+
+    push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)
