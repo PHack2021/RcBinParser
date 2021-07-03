@@ -78,7 +78,8 @@ def push_to_db(**kwargs):
             if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
                 c.organizations.append(o)
         except KeyError:
-            session.merge(o)
+            if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
+                session.merge(o)
 
     session.commit()
 
@@ -88,15 +89,15 @@ def push_to_db(**kwargs):
         print(rc_bin)
         '''
         r = RcBin()
-        r.official_sn = 
-        r.village = 
-        r.address = 
-        r.addr_with_dirs = 
-        r.directions = 
-        r.coords_lat = 
-        r.coords_lng = 
-        r.updated_on = 
-        r.note = 
+        r.official_sn =
+        r.village =
+        r.address =
+        r.addr_with_dirs =
+        r.directions =
+        r.coords_lat =
+        r.coords_lng =
+        r.updated_on =
+        r.note =
 
         try:
             c = session.query(District).filter(
@@ -109,6 +110,8 @@ def push_to_db(**kwargs):
 
     session.commit()
     '''
+
+    session.close()
 
 
 if __name__ == '__main__':
