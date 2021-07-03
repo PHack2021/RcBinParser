@@ -10,13 +10,13 @@ from colorama import Fore
 from sqlalchemy.orm import Session
 
 from models import db_connect, create_table
-from models import District, County_City
+from models import District, County_City, Organization
 from rc_bin_parser import CsvParser, PdfParser
 
 from rc_bin_parser.utils import get_dict_from_csv
 
 SOURCES_PATH = 'resources/sources.json'
-skip_list = ['嘉義市']
+skip_list = ['嘉義市', '新北市', '台南市', '高雄市']
 
 
 def read_sources() -> List[dict]:
@@ -48,8 +48,6 @@ def push_to_db(**kwargs):
     # Update district
     districts = get_dict_from_csv('resources/districts.csv')
     for district in districts:
-        print(district)
-
         d = District()
         d.code = district['code']
         d.name = district['name']
@@ -62,11 +60,35 @@ def push_to_db(**kwargs):
         if d.code not in [dist.code for dist in c.districts]:
             c.districts.append(d)
 
+    # Update organization
+    organizations = kwargs.get('orgs', '')
+    organizations = organizations.split('/')
+    org_dist = kwargs.get('dists', '')
+    org_dist = org_dist.split('/')
+    for organization, dist in zip(organizations[:-1], org_dist[:-1]):
+        organization = eval(organization)
+
+        o = Organization()
+        o.uuid = organization['uuid']
+        o.name = organization['org_name']
+        #o.address = organization['address']
+        #o.contact = organization['contact']
+        o.phone = organization['org_phone']
+
+        if not d:
+            continue
+        for district in districts:
+            if dist in district.values():
+                o.district_code = district['code']
+
     session.commit()
 
 
 if __name__ == '__main__':
     sources = read_sources()
+
+    dist_str = ''
+    org_str = ''
 
     for source in sources:
         if source['name'] in skip_list:
@@ -94,4 +116,8 @@ if __name__ == '__main__':
             print(
                 f'{Fore.MAGENTA}[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]{Fore.RESET}')
 
-    push_to_db()
+    for rc_bin in rc_bins:
+        dist_str += str(rc_bin['district']) + '/'
+        org_str += str(rc_bin['organization']) + '/'
+
+    push_to_db(dists=dist_str, orgs=org_str)
