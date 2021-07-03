@@ -52,12 +52,12 @@ class County_City(Base):
 class Organization(Base):
     __tablename__ = 'organization'
 
-    uuid = Column(String(50), primary_key=True, unique=True, nullable=False)
-    name = Column(String(20), unique=True, nullable=False)
+    uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(Text, unique=True, nullable=False)
     address = Column(Text)
     contact = Column(Text)
-    phone = Column(String(20), nullable=False)
-    district_code = Column(ForeignKey('district.code'), nullable=False)
+    phone = Column(String(15))
+    district_code = Column(ForeignKey('district.code'))
 
     district = relationship(
         'District', back_populates='organizations', order_by=District.code)

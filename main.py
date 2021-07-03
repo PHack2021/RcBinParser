@@ -77,7 +77,7 @@ def push_to_db(**kwargs):
 
             if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
                 c.organizations.append(o)
-        except AttributeError:
+        except KeyError:
             session.merge(o)
 
     session.commit()
