@@ -35,6 +35,7 @@ class District(Base):
 
     county_city = relationship('County_City', back_populates='districts')
     organizations = relationship('Organization', back_populates='district')
+    rcbin = relationship('RcBin', back_populates='district')
 
 
 class County_City(Base):
@@ -61,3 +62,25 @@ class Organization(Base):
 
     district = relationship(
         'District', back_populates='organizations', order_by=District.code)
+    rcbins = relationship('RcBin', back_populates='org_uuid')
+
+class RcBin(Base):
+    __tablename__ = 'rcbin'
+
+    uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    official_sn = Column(Text, nullable=False)
+    district_code = Column(ForeignKey('district.code'))
+    village = Column(Text, nullable=False)
+    address = Column(Text, nullable=False)
+    addr_with_dirs = Column(Text, unique=True, nullable=False)
+    directions = Column(Text, nullable=False)
+    organization_uuid = Column(ForeignKey('organization.uuid'))
+    coords_lat = Column(Text, nullable=False)
+    coords_lng = Column(Text, nullable=False)
+    updated_on = Column(Date)
+    note = Column(Text, nullable=False)
+
+    district = relationship(
+        'District', back_populates='rcbin', order_by=District.code)
+    org_uuid = relationship(
+        'Organization', back_populates='rcbins')

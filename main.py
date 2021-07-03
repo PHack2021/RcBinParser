@@ -82,6 +82,34 @@ def push_to_db(**kwargs):
 
     session.commit()
 
+    # Update rcbin
+    rc_bins = kwargs.get('rc_bins', '')
+    for rc_bin in rc_bins:
+        print(rc_bin)
+        '''
+        r = RcBin()
+        r.official_sn = 
+        r.village = 
+        r.address = 
+        r.addr_with_dirs = 
+        r.directions = 
+        r.coords_lat = 
+        r.coords_lng = 
+        r.updated_on = 
+        r.note = 
+
+        try:
+            c = session.query(District).filter(
+                District.code == org['org_district_code'][:5]).one_or_none()
+
+            if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
+                c.organizations.append(o)
+        except KeyError:
+            session.merge(o)
+
+    session.commit()
+    '''
+
 
 if __name__ == '__main__':
     sources = read_sources()
