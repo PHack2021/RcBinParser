@@ -2,7 +2,6 @@ from sqlalchemy import (Boolean, Column, Date, DateTime, Float, ForeignKey,
                         Integer, MetaData, String, Table, Text, create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.sqltypes import ARRAY
 
 from config import CONNECTION_STRING
