@@ -24,6 +24,7 @@ def db_connect():
 def create_table(engine):
     Base.metadata.create_all(engine)
 
+
 class District(Base):
     __tablename__ = 'district'
 
@@ -33,7 +34,8 @@ class District(Base):
     # county_city_name = Column(ForeignKey('county_city.name'), nullable=False)
 
     county_city = relationship('County_City', back_populates='districts')
-    organization = relationship('Organization', back_populates='districts2')
+    organizations = relationship('Organization', back_populates='district')
+
 
 class County_City(Base):
     __tablename__ = 'county_city'
@@ -43,7 +45,8 @@ class County_City(Base):
     order = Column(Integer, index=True)
     alt_name = Column(String(3))
 
-    districts = relationship('District', back_populates='county_city', order_by=District.code)
+    districts = relationship(
+        'District', back_populates='county_city', order_by=District.code)
 
 
 class Organization(Base):
@@ -51,9 +54,10 @@ class Organization(Base):
 
     uuid = Column(String(50), primary_key=True, unique=True, nullable=False)
     name = Column(String(20), unique=True, nullable=False)
-    #address = Column(Text)
-    #contact = Column(Text)
+    address = Column(Text)
+    contact = Column(Text)
     phone = Column(String(20), nullable=False)
     district_code = Column(ForeignKey('district.code'), nullable=False)
 
-    districts2 = relationship('District', back_populates='organization', order_by=District.code)
+    district = relationship(
+        'District', back_populates='organizations', order_by=District.code)

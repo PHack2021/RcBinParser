@@ -60,26 +60,25 @@ def push_to_db(**kwargs):
         if d.code not in [dist.code for dist in c.districts]:
             c.districts.append(d)
 
+    session.commit()
+
     # Update organization
-    organizations = kwargs.get('orgs', '')
-    organizations = organizations.split('/')
-    org_dist = kwargs.get('dists', '')
-    org_dist = org_dist.split('/')
-    for organization, dist in zip(organizations[:-1], org_dist[:-1]):
-        organization = eval(organization)
-
+    orgs = kwargs.get('orgs', '')
+    for org in orgs:
         o = Organization()
-        o.uuid = organization['uuid']
-        o.name = organization['org_name']
-        #o.address = organization['address']
-        #o.contact = organization['contact']
-        o.phone = organization['org_phone']
+        o.name = org.get('org_name', '')
+        o.address = org.get('org_address', '')
+        o.contact = org.get('org_contact', '')
+        o.phone = org.get('org_phone', '')
 
-        if not d:
-            continue
-        for district in districts:
-            if dist in district.values():
-                o.district_code = district['code']
+        try:
+            c = session.query(District).filter(
+                District.code == org['org_district_code'][:5]).one_or_none()
+
+            if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
+                c.organizations.append(o)
+        except AttributeError:
+            session.merge(o)
 
     session.commit()
 
@@ -118,9 +117,5 @@ if __name__ == '__main__':
 
         rc_bins_list += parser.rc_bins
         orgs_list += parser.organizations
-
-    # for rc_bin in rc_bins:
-    #     dist_str += str(rc_bin['district']) + '/'
-    #     org_str += str(rc_bin['organization']) + '/'
 
     push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)
