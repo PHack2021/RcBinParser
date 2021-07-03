@@ -27,8 +27,8 @@ class District(Base):
 
     code = Column(String(8), primary_key=True, unique=True, nullable=False)
     name = Column(String(5), nullable=False)
-    # county_city_code = Column(ForeignKey('county_city.code'), nullable=False)
-    county_city_name = Column(ForeignKey('county_city.name'), nullable=False)
+    county_city_code = Column(ForeignKey('county_city.code'), nullable=False)
+    # county_city_name = Column(ForeignKey('county_city.name'), nullable=False)
 
     county_city = relationship('County_City', back_populates='districts')
 

@@ -8,7 +8,7 @@ class Organization(TypedDict):
     org_contact: str            # <TEXT>
     org_phone: str              # <TEXT>
     org_district: str
-    org_district_code: str      # <TEXT>
+    org_district_code: str      # FK <VARCHAR(8)>
 
 
 class RcBin(TypedDict):
@@ -16,7 +16,7 @@ class RcBin(TypedDict):
     official_sn: str            # <TEXT>
     county_city: str
     district: str
-    district_code: str          # <TEXT>
+    district_code: str          # FK <VARCHAR(8)>
     village: str                # <TEXT>
     address: str                # <TEXT>
     addr_with_dirs: str         # <TEXT>
