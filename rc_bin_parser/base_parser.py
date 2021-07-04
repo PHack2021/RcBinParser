@@ -112,11 +112,13 @@ class BaseParser(ABC):
                 continue
 
             for district in districts:
+
                 if not rc_bin.get('district', ''):
                     continue
 
-                if rc_bin['district'] == district['name'] or rc_bin['district'] == district.get('alt_name', ''):
+                if rc_bin['district'] == district['name'] and district['county_city'] == self.source['name'].replace('台', '臺'):
                     rc_bin['district_code'] = district['code']
+                    break
 
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         rc_bins_raw = self._get_list_from_resource(resource)
