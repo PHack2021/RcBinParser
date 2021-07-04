@@ -42,6 +42,7 @@ def push_to_db(**kwargs):
         if county_city.get('alt_name', ''):
             c.alt_name = county_city['alt_name']
 
+        print(c.name)
         session.merge(c)
     session.commit()
 
@@ -54,6 +55,8 @@ def push_to_db(**kwargs):
 
         c = session.query(County_City).filter(
             County_City.code == district['code'][:5]).one_or_none()
+
+        print(d.name)
 
         if not c:
             continue
@@ -80,6 +83,7 @@ def push_to_db(**kwargs):
         except KeyError:
             if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
                 session.merge(o)
+        print(o.name)
 
     session.commit()
 
@@ -97,26 +101,31 @@ def push_to_db(**kwargs):
         r.updated_on = rc_bin.get('updated_on', '')
         r.note = rc_bin.get('note', '')
 
+        print(r.addr_with_dirs)
         try:
-            c = session.query(District).filter(
-                District.code == rc_bin['district_code'][:5]).one_or_none()
+            d = session.query(District).filter(
+                District.code == rc_bin['district_code']).one_or_none()
 
-            if c != None:
+            if d:
                 if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
-                     c.rcbin.append(r)
+                    d.rcbins.append(r)
         except KeyError:
-            session.merge(r)
+            if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
+                session.merge(r)
 
         try:
             o = session.query(Organization).filter(
-                Organization.uuid == rc_bin['organization_uuid'][:5]).one_or_none()
+                Organization.name == rc_bin['organization']['org_name']).one_or_none()
 
-            if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
-                o.rcbins.append(r)
+            if o:
+                rc_bin_in_db = session.query(RcBin).filter(
+                    RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none()
+                if rc_bin_in_db:
+                    o.rcbins.append(rc_bin_in_db)
         except KeyError:
-            session.merge(r)
+            pass
 
-    session.commit()
+        session.commit()
 
     session.close()
 
