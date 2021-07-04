@@ -77,7 +77,7 @@ class RcBin(Base):
     organization_uuid = Column(ForeignKey('organization.uuid'))
     coords_lat = Column(Text, nullable=False)
     coords_lng = Column(Text, nullable=False)
-    updated_on = Column(Date)
+    updated_on = Column(Text)
     note = Column(Text, nullable=False)
 
     district = relationship(

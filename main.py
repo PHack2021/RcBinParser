@@ -10,7 +10,7 @@ from colorama import Fore
 from sqlalchemy.orm import Session
 
 from models import db_connect, create_table
-from models import District, County_City, Organization
+from models import District, County_City, Organization, RcBin
 from rc_bin_parser import CsvParser, PdfParser
 
 from rc_bin_parser.utils import get_dict_from_csv
@@ -86,30 +86,37 @@ def push_to_db(**kwargs):
     # Update rcbin
     rc_bins = kwargs.get('rc_bins', '')
     for rc_bin in rc_bins:
-        print(rc_bin)
-        '''
         r = RcBin()
-        r.official_sn =
-        r.village =
-        r.address =
-        r.addr_with_dirs =
-        r.directions =
-        r.coords_lat =
-        r.coords_lng =
-        r.updated_on =
-        r.note =
+        r.official_sn = rc_bin.get('official_sn', '')
+        r.village = rc_bin.get('village', '')
+        r.address = rc_bin.get('address', '')
+        r.addr_with_dirs = rc_bin.get('addr_with_dirs', '')
+        r.directions = rc_bin.get('directions', '')
+        r.coords_lat = rc_bin.get('coords_lat', '')
+        r.coords_lng = rc_bin.get('coords_lng', '')
+        r.updated_on = rc_bin.get('updated_on', '')
+        r.note = rc_bin.get('note', '')
 
         try:
             c = session.query(District).filter(
-                District.code == org['org_district_code'][:5]).one_or_none()
+                District.code == rc_bin['district_code'][:5]).one_or_none()
 
-            if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
-                c.organizations.append(o)
+            if c != None:
+                if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
+                     c.rcbin.append(r)
         except KeyError:
-            session.merge(o)
+            session.merge(r)
+
+        try:
+            o = session.query(Organization).filter(
+                Organization.uuid == rc_bin['organization_uuid'][:5]).one_or_none()
+
+            if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
+                o.rcbins.append(r)
+        except KeyError:
+            session.merge(r)
 
     session.commit()
-    '''
 
     session.close()
 
