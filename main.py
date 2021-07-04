@@ -153,7 +153,7 @@ if __name__ == '__main__':
         elif source['type'] == 'soup':
             continue
 
-        rc_bins = parser.get_rc_bins(source['name'])
+        rc_bins = parser.get_rc_bins()
         if not rc_bins:
             print(
                 f'{Fore.MAGENTA}[Failed to parse RcBins from {source["name"]}]{Fore.RESET}')

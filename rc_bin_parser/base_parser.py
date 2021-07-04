@@ -103,24 +103,22 @@ class BaseParser(ABC):
 
         return organizations
 
-    def _map_district_codes(self, county_city_name) -> None:
+    def _map_district_codes(self) -> None:
         districts = get_dict_from_csv('resources/districts.csv')
 
         for rc_bin in self.rc_bins:
-            rc_bin['district'] = rc_bin['district'].replace('台','臺')
-
             # 如果 district_code 不存在，從 districts.csv 拿到對應的 district_code 存進去
             if rc_bin.get('district_code', ''):
                 continue
 
             for district in districts:
-                district['county_city'] = district['county_city'].replace('臺', '台')
 
                 if not rc_bin.get('district', ''):
                     continue
 
-                if rc_bin['district'] == district['name'] and district['county_city'] == county_city_name:
+                if rc_bin['district'] == district['name'] and district['county_city'] == self.source['name'].replace('台', '臺'):
                     rc_bin['district_code'] = district['code']
+                    break
 
     def _parse_rc_bins_from_resource(self, resource: Any) -> List[RcBin]:
         rc_bins_raw = self._get_list_from_resource(resource)
@@ -146,7 +144,7 @@ class BaseParser(ABC):
         return rc_bins
 
     # Main Entry Point
-    def get_rc_bins(self, county_city_name) -> List[RcBin]:
+    def get_rc_bins(self) -> List[RcBin]:
         url = self._get_resource_url()
         if not url:
             print('[Failed to get resource_url]')
@@ -159,6 +157,6 @@ class BaseParser(ABC):
 
         self.rc_bins = self._parse_rc_bins_from_resource(resource)
         self.organizations = self._get_unique_organizations()
-        self._map_district_codes(county_city_name)
+        self._map_district_codes()
         # print(self.organizations)
         return self.rc_bins
