@@ -88,6 +88,9 @@ class BaseParser(ABC):
             if not rc_bin.get('organization', ''):
                 continue
 
+            if not rc_bin['organization'].get('org_name', ''):
+                continue
+
             if not org_dict.get(rc_bin['organization']['org_name'], ''):
                 org_uuid = str(uuid.uuid4())
                 rc_bin['organization']['uuid'] = org_uuid

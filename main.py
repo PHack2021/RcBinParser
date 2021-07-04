@@ -16,7 +16,7 @@ from rc_bin_parser import CsvParser, PdfParser
 from rc_bin_parser.utils import get_dict_from_csv
 
 SOURCES_PATH = 'resources/sources.json'
-skip_list = ['嘉義市', '新北市', '台南市', '高雄市']
+skip_list = ['嘉義市']
 
 
 def read_sources() -> List[dict]:
