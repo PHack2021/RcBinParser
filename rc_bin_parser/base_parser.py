@@ -89,12 +89,12 @@ class BaseParser(ABC):
                 continue
 
             if not org_dict.get(rc_bin['organization']['org_name'], ''):
-                org_uuid = uuid.uuid4()
+                org_uuid = str(uuid.uuid4())
                 rc_bin['organization']['uuid'] = org_uuid
                 org_dict[rc_bin['organization']
                          ['org_name']] = rc_bin['organization']
 
-            org_uuid = uuid.uuid4()
+            org_uuid = str(uuid.uuid4())
             rc_bin['organization']['uuid'] = org_uuid
 
         organizations = []

@@ -10,13 +10,13 @@ from colorama import Fore
 from sqlalchemy.orm import Session
 
 from models import db_connect, create_table
-from models import District, County_City
+from models import District, County_City, Organization, RcBin
 from rc_bin_parser import CsvParser, PdfParser
 
 from rc_bin_parser.utils import get_dict_from_csv
 
 SOURCES_PATH = 'resources/sources.json'
-skip_list = ['嘉義市']
+skip_list = ['嘉義市', '新北市', '台南市', '高雄市']
 
 
 def read_sources() -> List[dict]:
@@ -42,20 +42,21 @@ def push_to_db(**kwargs):
         if county_city.get('alt_name', ''):
             c.alt_name = county_city['alt_name']
 
+        print(c.name)
         session.merge(c)
     session.commit()
 
     # Update district
     districts = get_dict_from_csv('resources/districts.csv')
     for district in districts:
-        print(district)
-
         d = District()
         d.code = district['code']
         d.name = district['name']
 
         c = session.query(County_City).filter(
             County_City.code == district['code'][:5]).one_or_none()
+
+        print(d.name)
 
         if not c:
             continue
@@ -64,9 +65,76 @@ def push_to_db(**kwargs):
 
     session.commit()
 
+    # Update organization
+    orgs = kwargs.get('orgs', '')
+    for org in orgs:
+        o = Organization()
+        o.name = org.get('org_name', '')
+        o.address = org.get('org_address', '')
+        o.contact = org.get('org_contact', '')
+        o.phone = org.get('org_phone', '')
+
+        try:
+            c = session.query(District).filter(
+                District.code == org['org_district_code'][:5]).one_or_none()
+
+            if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
+                c.organizations.append(o)
+        except KeyError:
+            if not session.query(Organization.name).filter(Organization.name == o.name).one_or_none():
+                session.merge(o)
+        print(o.name)
+
+    session.commit()
+
+    # Update rcbin
+    rc_bins = kwargs.get('rc_bins', '')
+    for rc_bin in rc_bins:
+        r = RcBin()
+        r.official_sn = rc_bin.get('official_sn', '')
+        r.village = rc_bin.get('village', '')
+        r.address = rc_bin.get('address', '')
+        r.addr_with_dirs = rc_bin.get('addr_with_dirs', '')
+        r.directions = rc_bin.get('directions', '')
+        r.coords_lat = rc_bin.get('coords_lat', '')
+        r.coords_lng = rc_bin.get('coords_lng', '')
+        r.updated_on = rc_bin.get('updated_on', '')
+        r.note = rc_bin.get('note', '')
+
+        print(r.addr_with_dirs)
+        try:
+            d = session.query(District).filter(
+                District.code == rc_bin['district_code']).one_or_none()
+
+            if d:
+                if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
+                    d.rcbins.append(r)
+        except KeyError:
+            if not session.query(RcBin.addr_with_dirs).filter(RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none():
+                session.merge(r)
+
+        try:
+            o = session.query(Organization).filter(
+                Organization.name == rc_bin['organization']['org_name']).one_or_none()
+
+            if o:
+                rc_bin_in_db = session.query(RcBin).filter(
+                    RcBin.addr_with_dirs == r.addr_with_dirs).one_or_none()
+                if rc_bin_in_db:
+                    o.rcbins.append(rc_bin_in_db)
+        except KeyError:
+            pass
+
+        session.commit()
+
+    session.close()
+
 
 if __name__ == '__main__':
     sources = read_sources()
+
+    rc_bins_list = []
+    orgs_list = []
 
     for source in sources:
         if source['name'] in skip_list:
@@ -94,4 +162,7 @@ if __name__ == '__main__':
             print(
                 f'{Fore.MAGENTA}[Successfuly parsed {len(rc_bins)} RcBins from {source["name"]}]{Fore.RESET}')
 
-    push_to_db()
+        rc_bins_list += parser.rc_bins
+        orgs_list += parser.organizations
+
+    push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)

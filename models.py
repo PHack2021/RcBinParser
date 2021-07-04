@@ -1,8 +1,11 @@
+import uuid
+
 from sqlalchemy import (Boolean, Column, Date, DateTime, Float, ForeignKey,
                         Integer, MetaData, String, Table, Text, create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import ARRAY
+from sqlalchemy.dialects.postgresql import UUID
 
 from config import CONNECTION_STRING
 
@@ -30,6 +33,8 @@ class District(Base):
     # county_city_name = Column(ForeignKey('county_city.name'), nullable=False)
 
     county_city = relationship('County_City', back_populates='districts')
+    organizations = relationship('Organization', back_populates='district')
+    rcbins = relationship('RcBin', back_populates='district')
 
 
 class County_City(Base):
@@ -42,3 +47,40 @@ class County_City(Base):
 
     districts = relationship(
         'District', back_populates='county_city', order_by=District.code)
+
+
+class Organization(Base):
+    __tablename__ = 'organization'
+
+    uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(Text, unique=True, nullable=False)
+    address = Column(Text)
+    contact = Column(Text)
+    phone = Column(String(15))
+    district_code = Column(ForeignKey('district.code'))
+
+    district = relationship(
+        'District', back_populates='organizations', order_by=District.code)
+    rcbins = relationship('RcBin', back_populates='organization')
+
+
+class RcBin(Base):
+    __tablename__ = 'rcbin'
+
+    uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    official_sn = Column(Text, nullable=False)
+    district_code = Column(ForeignKey('district.code'))
+    village = Column(Text, nullable=False)
+    address = Column(Text, nullable=False)
+    addr_with_dirs = Column(Text, unique=True, nullable=False)
+    directions = Column(Text, nullable=False)
+    organization_name = Column(ForeignKey('organization.name'))
+    coords_lat = Column(Text, nullable=False)
+    coords_lng = Column(Text, nullable=False)
+    updated_on = Column(Text)
+    note = Column(Text, nullable=False)
+
+    district = relationship(
+        'District', back_populates='rcbins', order_by=District.code)
+    organization = relationship(
+        'Organization', back_populates='rcbins')
