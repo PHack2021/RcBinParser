@@ -165,4 +165,4 @@ if __name__ == '__main__':
         rc_bins_list += parser.rc_bins
         orgs_list += parser.organizations
 
-    #push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)
+    push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)
