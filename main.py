@@ -153,7 +153,7 @@ if __name__ == '__main__':
         elif source['type'] == 'soup':
             continue
 
-        rc_bins = parser.get_rc_bins()
+        rc_bins = parser.get_rc_bins(source['name'])
         if not rc_bins:
             print(
                 f'{Fore.MAGENTA}[Failed to parse RcBins from {source["name"]}]{Fore.RESET}')
@@ -165,4 +165,4 @@ if __name__ == '__main__':
         rc_bins_list += parser.rc_bins
         orgs_list += parser.organizations
 
-    push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)
+    #push_to_db(rc_bins=rc_bins_list, orgs=orgs_list)
